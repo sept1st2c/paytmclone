@@ -22,11 +22,13 @@ const signupSchema = zod.object({
 
 router.post("/signup", async (req, res) => {
   const body = req.body;
-  const { success } = signupSchema.safeParse(req.body);
-
-  if (!success) {
-    return res.status(411).json({
-      message: "Email already taken / Incorrect inputs",
+  const parseResult = signupSchema.safeParse(req.body);
+  //   return body;
+  //   console.log(req.body);
+  if (!parseResult.success) {
+    return res.status(400).json({
+      message: "Incorrect inputs",
+      errors: parseResult.error.errors,
     });
   }
 
@@ -36,12 +38,18 @@ router.post("/signup", async (req, res) => {
 
   if (existinguser) {
     return res.status(411).json({
-      message: "Email already taken / Incorrect inputs",
+      message: "Email already taken",
     });
   }
 
-  const user = await User.create(req.body);
+  const user = await User.create({
+    username: body.username,
+    password: body.password,
+    firstName: body.firstname, // Ensure correct field names
+    lastName: body.lastname,
+  });
   const userId = user._id;
+  console.log("hiiiiiiiiiiiiiiiiiii");
 
   await Account.create({
     userId,
@@ -120,11 +128,13 @@ const updateBodySchema = zod.object({
 
 router.put("/", authMiddleware, async (req, res) => {
   const { success } = updateBodySchema.safeParse(req.body);
+  console.log(req.body);
   if (!success) {
     return res.status(411).json({
       message: "Error while updating information",
     });
   }
+  console.log(req.body);
 
   await User.updateOne(
     {

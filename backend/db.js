@@ -4,7 +4,7 @@ const { string } = require("zod");
 const mongoDB =
   "mongodb+srv://sept1st2c-2:qAucQyV5kSpOskC8@cluster0.ldbnjee.mongodb.net/";
 
-mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(mongoDB);
 
 const userSchema = mongoose.Schema({
   username: {
