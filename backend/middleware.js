@@ -11,13 +11,13 @@ function authMiddleware(req, res, next) {
   try {
     const decodedValue = jwt.verify(jwtToken, JWT_SECRET);
 
-    if (decodedValue.username) {
-      next();
-    } else {
-      res.status(403).json({
-        msg: "You are not authenticated",
-      });
-    }
+    //     if (decodedValue.username) {
+    //       next();
+    //     } else {
+    //       res.status(403).json({
+    //         msg: "You are not authenticated",
+    //       });
+    //     }
 
     req.userId = decodedValue.userId;
     next();
