@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { string } = require("zod");
 
 const mongoDB =
   "mongodb+srv://sept1st2c-2:qAucQyV5kSpOskC8@cluster0.ldbnjee.mongodb.net/";
@@ -34,8 +35,23 @@ const userSchema = mongoose.Schema({
   },
 });
 
+const accountSchema = new mongoose.Schema({
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
+  balance: {
+    type: Number,
+    required: true,
+  },
+});
+
+const Account = mongoose.model("Account", accountSchema);
+
 const User = mongoose.model("User", userSchema);
 
 module.exports = {
   User,
+  Account,
 };
