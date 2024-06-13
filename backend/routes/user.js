@@ -23,7 +23,7 @@ const signupSchema = zod.object({
 router.post("/signup", async (req, res) => {
   const body = req.body;
   const parseResult = signupSchema.safeParse(req.body);
-  console.log("Request Body: ", body);
+
   //   return body;
   //   console.log(req.body);
   if (!parseResult.success) {
@@ -155,11 +155,12 @@ router.put("/", authMiddleware, async (req, res) => {
 //
 
 router.get("/bulk", async (req, res) => {
-  const filter = req.body.filter || "";
+  const filter = req.query.filter || "";
+
   const users = await User.find({
     $or: [
       {
-        firstname: {
+        firstName: {
           $regex: filter,
         },
       },
