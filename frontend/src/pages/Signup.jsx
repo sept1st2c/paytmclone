@@ -62,6 +62,7 @@ export const Signup = () => {
                   }
                 );
                 localStorage.setItem("token", response.data.token);
+                console.log("response.data.token");
               }}
               label={"Sign up"}
             />
