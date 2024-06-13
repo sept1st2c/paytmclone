@@ -23,6 +23,7 @@ const signupSchema = zod.object({
 router.post("/signup", async (req, res) => {
   const body = req.body;
   const parseResult = signupSchema.safeParse(req.body);
+  console.log("Request Body: ", body);
   //   return body;
   //   console.log(req.body);
   if (!parseResult.success) {
@@ -49,7 +50,6 @@ router.post("/signup", async (req, res) => {
     lastName: body.lastname,
   });
   const userId = user._id;
-  console.log("hiiiiiiiiiiiiiiiiiii");
 
   await Account.create({
     userId,
